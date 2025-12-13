@@ -1,0 +1,180 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BlogPostCard from "../../components/BlogPostCard.astro";
+
+const blogPosts = [
+  {
+    title: "TryHackMe Advent of Cyber 2024 - Meine Erfahrungen",
+    date: "2024-12-15",
+    excerpt:
+      "Meine Teilnahme am Advent of Cyber 2024 Challenge. Hier teile ich meine Lösungsansätze und was ich dabei gelernt habe.",
+    tags: ["CTF", "TryHackMe", "Security"],
+    slug: "advent-of-cyber-2024",
+  },
+  {
+    title: "Homelab Setup mit Raspberry Pi 5",
+    date: "2024-11-20",
+    excerpt:
+      "Wie ich meinen Raspberry Pi 5 als Homelab-Server eingerichtet habe. Von der Installation bis zu den ersten Services.",
+    tags: ["Homelab", "Linux", "Server"],
+    slug: "homelab-raspberry-pi",
+  },
+  {
+    title: "VPN Server mit WireGuard einrichten",
+    date: "2024-10-05",
+    excerpt:
+      "Eine Schritt-für-Schritt Anleitung zur Einrichtung eines WireGuard VPN Servers für sicheren Remote-Zugriff.",
+    tags: ["VPN", "WireGuard", "Tutorial"],
+    slug: "wireguard-vpn-setup",
+  },
+];
+---
+
+<BaseLayout title="Blog | Adryano Yohanna">
+  <Header currentPath="/blog" />
+
+  <main>
+    <section class="blog-hero">
+      <div class="container">
+        <h1>Blog & <span class="gradient-text">Research</span></h1>
+        <p class="subtitle">Meine Gedanken, Projekte und Learnings</p>
+      </div>
+    </section>
+
+    <section class="blog-content">
+      <div class="container">
+        <div class="blog-grid">
+          {
+            blogPosts.map((post) => (
+              <BlogPostCard
+                title={post.title}
+                date={post.date}
+                excerpt={post.excerpt}
+                tags={post.tags}
+                slug={post.slug}
+              />
+            ))
+          }
+        </div>
+
+        {
+          blogPosts.length === 0 && (
+            <div class="empty-state">
+              <p>Noch keine Blog-Posts vorhanden.</p>
+              <p class="muted">Bald kommen hier meine ersten Artikel!</p>
+            </div>
+          )
+        }
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    padding-top: 72px;
+    min-height: 100vh;
+  }
+
+  .blog-hero {
+    padding: 4rem 0;
+    text-align: center;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .blog-hero h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+  }
+
+  .blog-content {
+    padding: 4rem 0;
+  }
+
+  .blog-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .empty-state p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state .muted {
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding-top: 80px;
+    }
+
+    .blog-hero {
+      padding: 3rem 0;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+    }
+
+    .blog-content {
+      padding: 2.5rem 0;
+    }
+
+    .blog-grid {
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding-top: 70px;
+    }
+
+    .blog-hero {
+      padding: 2rem 0;
+    }
+
+    .blog-hero h1 {
+      font-size: 1.75rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+    }
+
+    .blog-content {
+      padding: 2rem 0;
+    }
+
+    .blog-grid {
+      gap: 1rem;
+    }
+
+    .empty-state {
+      padding: 2rem 1rem;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+    }
+  }
+</style>

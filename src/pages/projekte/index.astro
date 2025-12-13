@@ -1,0 +1,505 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getPath } from "../../utils/navigation";
+
+const projects = [
+  {
+    title: "Diplomarbeit: Blockchain-Dateisystem",
+    description:
+      "Verteiltes manipulationssicheres Dateiverwaltungssystem auf Blockchain-Basis. Ein Schulprojekt das sichere und dezentrale Datenspeicherung ermöglicht.",
+    tags: ["Blockchain", "Java", "Schule"],
+    category: "schule",
+    slug: "diplomarbeit-blockchain",
+    icon: "📦",
+    status: "In Entwicklung",
+  },
+  {
+    title: "Telegram Monitor Bot",
+    description:
+      "Ein Bot der Websites auf Änderungen überwacht und automatisch Benachrichtigungen via Telegram sendet. Läuft auf meinem Raspberry Pi Homelab.",
+    tags: ["Python", "Bot", "Automation"],
+    category: "projekte",
+    slug: "telegram-monitor-bot",
+    icon: "🤖",
+    status: "Aktiv",
+  },
+  {
+    title: "Homelab Server",
+    description:
+      "Raspberry Pi 5 mit Ubuntu LTS. Hostet verschiedene Services wie VPN-Server, Bots und experimentelle Projekte.",
+    tags: ["Linux", "Ubuntu", "Homelab"],
+    category: "projekte",
+    slug: "homelab-server",
+    icon: "🖥️",
+    status: "Aktiv",
+  },
+  {
+    title: "Minecraft Server Netzwerk",
+    description:
+      "Multi-Server Setup mit Fabric, Velocity Proxy und Paper. Komplettes Netzwerk mit Load Balancing und Firewall-Konfiguration.",
+    tags: ["Java", "Networking", "Server"],
+    category: "projekte",
+    slug: "minecraft-server",
+    icon: "🎮",
+    status: "Archiviert",
+  },
+  {
+    title: "VPN Server Setup",
+    description:
+      "Einrichtung von WireGuard und OpenVPN Servern inklusive Client-Konfiguration für sicheren Remote-Zugriff.",
+    tags: ["VPN", "WireGuard", "Security"],
+    category: "projekte",
+    slug: "vpn-server",
+    icon: "🔐",
+    status: "Aktiv",
+  },
+  {
+    title: "TryHackMe CTFs",
+    description:
+      "Teilnahme an Advent of Cyber 2024 und 2025. Dokumentation von Lösungsansätzen und gelernten Techniken.",
+    tags: ["CTF", "Security", "Learning"],
+    category: "security",
+    slug: "tryhackme-ctfs",
+    icon: "🏴‍☠️",
+    status: "Laufend",
+  },
+  {
+    title: "Cloudflare Zero Trust",
+    description:
+      "Implementierung von Cloudflare Zero Trust Tunnel für sicheren Zugriff auf interne Services ohne Port-Forwarding.",
+    tags: ["Cloudflare", "Tunnel", "Security"],
+    category: "projekte",
+    slug: "cloudflare-zerotrust",
+    icon: "☁️",
+    status: "Aktiv",
+  },
+  {
+    title: "Minecraft Mods",
+    description:
+      "Entwicklung von Minecraft Mods mit Java und Fabric. Experimentieren mit Game-Modding und API-Integration.",
+    tags: ["Java", "Fabric", "Modding"],
+    category: "projekte",
+    slug: "minecraft-mods",
+    icon: "⚒️",
+    status: "Pausiert",
+  },
+];
+
+const categories = [
+  { id: "alle", label: "Alle" },
+  { id: "projekte", label: "Eigene Projekte" },
+  { id: "schule", label: "Schulprojekte" },
+  { id: "security", label: "Security" },
+];
+
+const statusColors: Record<string, string> = {
+  Aktiv: "status-active",
+  "In Entwicklung": "status-dev",
+  Laufend: "status-active",
+  Pausiert: "status-paused",
+  Archiviert: "status-archived",
+};
+---
+
+<BaseLayout title="Projekte | Adryano Yohanna">
+  <Header currentPath="/projekte" />
+
+  <main>
+    <section class="projects-hero">
+      <div class="container">
+        <h1>Meine <span class="gradient-text">Projekte</span></h1>
+        <p class="subtitle">Eine Sammlung meiner Arbeiten und Experimente</p>
+      </div>
+    </section>
+
+    <section class="projects-content">
+      <div class="container">
+        <!-- Filter Buttons -->
+        <div class="filter-buttons" id="filter-buttons">
+          {
+            categories.map((cat, index) => (
+              <button
+                class:list={["filter-btn", { active: index === 0 }]}
+                data-filter={cat.id}
+              >
+                {cat.label}
+              </button>
+            ))
+          }
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projects-grid">
+          {
+            projects.map((project) => (
+              <a
+                href={getPath(`/projekte/${project.slug}`)}
+                class="project-card-link"
+                data-category={project.category}
+              >
+                <article class="project-card glass-card">
+                  <div class="card-header">
+                    <span class="card-icon">{project.icon}</span>
+                    <span
+                      class:list={["card-status", statusColors[project.status]]}
+                    >
+                      {project.status}
+                    </span>
+                  </div>
+
+                  <h3 class="card-title">{project.title}</h3>
+                  <p class="card-description">{project.description}</p>
+
+                  <div class="card-footer">
+                    <div class="card-tags">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                    <span class="card-arrow">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </span>
+                  </div>
+                </article>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const projectLinks = document.querySelectorAll(".project-card-link");
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      const filter = button.getAttribute("data-filter");
+
+      projectLinks.forEach((link, index) => {
+        const category = link.getAttribute("data-category");
+        const element = link as HTMLElement;
+
+        if (filter === "alle" || category === filter) {
+          element.style.display = "block";
+          element.style.animation = `fadeIn 0.4s ease ${index * 0.05}s forwards`;
+          element.style.opacity = "0";
+        } else {
+          element.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  main {
+    padding-top: 72px;
+  }
+
+  .projects-hero {
+    padding: 4rem 0;
+    text-align: center;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .projects-hero h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+  }
+
+  .projects-content {
+    padding: 4rem 0;
+  }
+
+  /* Filter Buttons */
+  .filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+  }
+
+  .filter-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: white;
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .project-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .card-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-active {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+  }
+
+  .status-dev {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+  }
+
+  .status-paused {
+    background: rgba(250, 204, 21, 0.15);
+    color: #eab308;
+  }
+
+  .status-archived {
+    background: rgba(161, 161, 170, 0.15);
+    color: #a1a1aa;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+  }
+
+  .project-card:hover .card-title {
+    color: var(--accent-primary);
+  }
+
+  .card-description {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .card-arrow {
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+  }
+
+  .project-card:hover .card-arrow {
+    color: var(--accent-primary);
+    transform: translateX(4px);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .projects-content {
+      padding: 3rem 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding-top: 80px;
+    }
+
+    .projects-hero {
+      padding: 3rem 0;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+    }
+
+    .filter-buttons {
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      flex-wrap: nowrap;
+      margin-bottom: 2rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .filter-buttons::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      flex-shrink: 0;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .projects-content {
+      padding: 2.5rem 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding-top: 70px;
+    }
+
+    .projects-hero {
+      padding: 2rem 0;
+    }
+
+    .projects-hero h1 {
+      font-size: 1.75rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+    }
+
+    .filter-buttons {
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+
+    .projects-grid {
+      gap: 1rem;
+    }
+
+    .card-icon {
+      font-size: 1.75rem;
+    }
+
+    .card-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-description {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+    }
+
+    .projects-content {
+      padding: 2rem 0;
+    }
+  }
+</style>

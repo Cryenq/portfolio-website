@@ -1,0 +1,647 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import SkillsCarousel from "../components/SkillsCarousel.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getPath } from "../utils/navigation";
+
+const featuredProjects = [
+  {
+    title: "Diplomarbeit: Blockchain-Dateisystem",
+    description:
+      "Verteiltes manipulationssicheres Dateiverwaltungssystem auf Blockchain-Basis. Entwickelt im Rahmen der HTL-Diplomarbeit.",
+    tags: ["Blockchain", "Java", "Schule"],
+    slug: "diplomarbeit-blockchain",
+  },
+  {
+    title: "Telegram Monitor Bot",
+    description:
+      "Überwacht Websites auf Änderungen und sendet automatisch Benachrichtigungen via Telegram Bot.",
+    tags: ["Python", "Bot", "Automation"],
+    slug: "telegram-monitor-bot",
+  },
+  {
+    title: "Homelab Server",
+    description:
+      "Raspberry Pi 5 mit Ubuntu LTS für VPN-Server, Bots und verschiedene Self-Hosted Services.",
+    tags: ["Linux", "VPN", "Homelab"],
+    slug: "homelab-server",
+  },
+];
+---
+
+<BaseLayout title="Adryano Yohanna | IT Student & Portfolio">
+  <Header currentPath="/" />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-gradient"></div>
+        <div class="hero-gradient-2"></div>
+        <div class="hero-grid"></div>
+      </div>
+
+      <div class="container hero-content">
+        <div class="hero-text">
+          <p class="hero-greeting animate-fade-in">Hallo, ich bin</p>
+          <h1 class="hero-name animate-fade-in">
+            Adryano <span class="gradient-text">Yohanna</span>
+          </h1>
+          <p class="hero-tagline animate-fade-in">
+            IT Student | HTL Donaustadt | Netzwerktechnologie
+          </p>
+
+          <div class="hero-cta animate-fade-in">
+            <a href={getPath("/projekte")} class="btn btn-primary">
+              Projekte ansehen
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href={getPath("/kontakt")} class="btn btn-secondary">Kontakt</a>
+          </div>
+        </div>
+
+        <!-- Decorative Hero Visual -->
+        <div class="hero-visual">
+          <div class="floating-card card-1">
+            <div class="card-icon">🔐</div>
+            <span>Security</span>
+          </div>
+          <div class="floating-card card-2">
+            <div class="card-icon">⚡</div>
+            <span>Networking</span>
+          </div>
+          <div class="floating-card card-3">
+            <div class="card-icon">🐳</div>
+            <span>Docker</span>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <pre><code><span class="code-keyword">const</span> student = {'{'} 
+  <span class="code-key">name</span>: <span class="code-string">"Adryano"</span>,
+  <span class="code-key">skills</span>: ["IT", "Security"],
+  <span class="code-key">goal</span>: <span class="code-string">"M.Sc. IT-Security"</span>
+{'}'}</code></pre>
+          </div>
+          <div class="orbit-ring"></div>
+          <div class="glow-orb orb-1"></div>
+          <div class="glow-orb orb-2"></div>
+        </div>
+      </div>
+
+      <!-- Skills Carousel at bottom of hero -->
+      <div class="skills-section">
+        <SkillsCarousel />
+      </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section class="featured-projects">
+      <div class="container">
+        <div class="section-header">
+          <h2>Ausgewählte <span class="gradient-text">Projekte</span></h2>
+          <p>Einige meiner aktuellen Arbeiten und Experimente</p>
+        </div>
+
+        <div class="projects-grid">
+          {
+            featuredProjects.map((project) => (
+              <a
+                href={getPath(`/projekte/${project.slug}`)}
+                class="project-link"
+              >
+                <ProjectCard
+                  title={project.title}
+                  description={project.description}
+                  tags={project.tags}
+                />
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="section-cta">
+          <a href={getPath("/projekte")} class="btn btn-secondary">
+            Alle Projekte ansehen
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    padding-top: 80px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-gradient {
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 60%;
+    height: 120%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(34, 211, 238, 0.15) 0%,
+      transparent 60%
+    );
+    filter: blur(60px);
+    transform: translateZ(0);
+    contain: strict;
+  }
+
+  .hero-gradient-2 {
+    position: absolute;
+    bottom: 0;
+    left: -10%;
+    width: 50%;
+    height: 80%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(168, 85, 247, 0.12) 0%,
+      transparent 60%
+    );
+    filter: blur(80px);
+    transform: translateZ(0);
+    contain: strict;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .hero-text {
+    max-width: 600px;
+    flex: 1;
+  }
+
+  .hero-greeting {
+    font-size: 1.25rem;
+    color: var(--accent-primary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
+    isolation: isolate;
+    transform: translateZ(0);
+  }
+
+  .hero-cta .btn {
+    contain: layout style;
+  }
+
+  /* Hero Visual - Decorative Elements */
+  .hero-visual {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    flex-shrink: 0;
+  }
+
+  .floating-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: rgba(20, 20, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    animation: float 4s ease-in-out infinite;
+    transform: translateZ(0);
+    contain: layout style;
+  }
+
+  .floating-card .card-icon {
+    font-size: 1.25rem;
+  }
+
+  .card-1 {
+    top: 20%;
+    right: 10%;
+    animation-delay: 0s;
+  }
+
+  .card-2 {
+    top: 50%;
+    right: 5%;
+    animation-delay: 1s;
+  }
+
+  .card-3 {
+    top: 75%;
+    right: 25%;
+    animation-delay: 2s;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .code-block {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    background: rgba(15, 15, 25, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    animation: float 5s ease-in-out infinite;
+    animation-delay: 0.5s;
+  }
+
+  .code-header {
+    display: flex;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot.red {
+    background: #ff5f56;
+  }
+  .dot.yellow {
+    background: #ffbd2e;
+  }
+  .dot.green {
+    background: #27ca3f;
+  }
+
+  .code-block pre {
+    margin: 0;
+    padding: 12px;
+  }
+
+  .code-block code {
+    color: #e0e0e0;
+    line-height: 1.6;
+  }
+
+  .code-keyword {
+    color: #c678dd;
+  }
+  .code-key {
+    color: #e06c75;
+  }
+  .code-string {
+    color: #98c379;
+  }
+
+  .orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(0);
+    width: 300px;
+    height: 300px;
+    border: 1px dashed rgba(34, 211, 238, 0.2);
+    border-radius: 50%;
+    animation: spin 30s linear infinite;
+    contain: strict;
+  }
+
+  @keyframes spin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg) translateZ(0);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg) translateZ(0);
+    }
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    transform: translateZ(0);
+    contain: strict;
+  }
+
+  .orb-1 {
+    width: 150px;
+    height: 150px;
+    background: rgba(34, 211, 238, 0.25);
+    top: 20%;
+    right: 20%;
+    animation: pulse 4s ease-in-out infinite;
+    opacity: 0.5;
+  }
+
+  .orb-2 {
+    width: 100px;
+    height: 100px;
+    background: rgba(168, 85, 247, 0.25);
+    bottom: 30%;
+    left: 30%;
+    animation: pulse 4s ease-in-out infinite;
+    animation-delay: 2s;
+    opacity: 0.5;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  /* Skills Section */
+  .skills-section {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 2rem;
+  }
+
+  /* Fade in animation */
+  .animate-fade-in {
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .animate-fade-in:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .animate-fade-in:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .animate-fade-in:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Featured Projects */
+  .featured-projects {
+    padding: 6rem 0;
+    background: var(--bg-secondary);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .section-header p {
+    color: var(--text-muted);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .project-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .section-cta {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-visual {
+      display: none;
+    }
+
+    .hero-content {
+      justify-content: center;
+    }
+
+    .hero-text {
+      text-align: center;
+      max-width: 700px;
+    }
+
+    .hero-cta {
+      justify-content: center;
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .featured-projects {
+      padding: 4rem 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding-top: 80px;
+    }
+
+    .hero {
+      min-height: auto;
+      padding: 3rem 0 2rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.25rem, 10vw, 3.5rem);
+    }
+
+    .hero-greeting {
+      font-size: 1.1rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .hero-cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured-projects {
+      padding: 3rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding-top: 70px;
+    }
+
+    .hero {
+      padding: 2rem 0 1.5rem;
+    }
+
+    .hero-name {
+      font-size: clamp(1.75rem, 12vw, 2.5rem);
+    }
+
+    .hero-greeting {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-tagline {
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-cta .btn {
+      padding: 0.875rem 1.5rem;
+    }
+
+    .featured-projects {
+      padding: 2.5rem 0;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .section-header p {
+      font-size: 0.9rem;
+    }
+
+    .projects-grid {
+      gap: 1rem;
+    }
+  }
+</style>

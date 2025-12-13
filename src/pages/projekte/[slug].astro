@@ -1,0 +1,648 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getPath } from "../../utils/navigation";
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "diplomarbeit-blockchain" } },
+    { params: { slug: "telegram-monitor-bot" } },
+    { params: { slug: "homelab-server" } },
+    { params: { slug: "minecraft-server" } },
+    { params: { slug: "vpn-server" } },
+    { params: { slug: "tryhackme-ctfs" } },
+    { params: { slug: "cloudflare-zerotrust" } },
+    { params: { slug: "minecraft-mods" } },
+  ];
+}
+
+const { slug } = Astro.params;
+
+const projects: Record<string, any> = {
+  "diplomarbeit-blockchain": {
+    title: "Diplomarbeit: Blockchain-Dateisystem",
+    icon: "📦",
+    status: "In Entwicklung",
+    tags: ["Blockchain", "Java", "Schule"],
+    description:
+      "Ein verteiltes manipulationssicheres Dateiverwaltungssystem auf Blockchain-Basis.",
+    longDescription: `
+      Dieses Projekt ist meine Diplomarbeit an der HTL Donaustadt. Das Ziel ist es, 
+      ein sicheres und dezentrales Dateiverwaltungssystem zu entwickeln, das auf 
+      Blockchain-Technologie basiert.
+    `,
+    features: [
+      "Dezentrale Speicherung von Datei-Hashes",
+      "Manipulationssichere Verifizierung",
+      "Java-basierte Implementierung",
+      "Benutzerfreundliche Oberfläche",
+    ],
+    technologies: [
+      "Java",
+      "Blockchain",
+      "Kryptographie",
+      "Distributed Systems",
+    ],
+    blogPost: null,
+    github: null,
+  },
+  "telegram-monitor-bot": {
+    title: "Telegram Monitor Bot",
+    icon: "🤖",
+    status: "Aktiv",
+    tags: ["Python", "Bot", "Automation"],
+    description:
+      "Ein Bot der Websites auf Änderungen überwacht und Benachrichtigungen sendet.",
+    longDescription: `
+      Dieser Bot läuft auf meinem Raspberry Pi Homelab und überwacht verschiedene 
+      Websites auf Änderungen. Wenn sich etwas ändert, sendet er automatisch eine 
+      Nachricht an eine Telegram-Gruppe.
+    `,
+    features: [
+      "Automatische Website-Überwachung",
+      "Telegram-Benachrichtigungen",
+      "Konfigurierbare Check-Intervalle",
+      "Läuft 24/7 auf Raspberry Pi",
+    ],
+    technologies: ["Python", "Telegram API", "Web Scraping", "Linux"],
+    blogPost: null,
+    github: null,
+  },
+  "homelab-server": {
+    title: "Homelab Server",
+    icon: "🖥️",
+    status: "Aktiv",
+    tags: ["Linux", "Ubuntu", "Homelab"],
+    description:
+      "Raspberry Pi 5 mit Ubuntu LTS für verschiedene Self-Hosted Services.",
+    longDescription: `
+      Mein Homelab basiert auf einem Raspberry Pi 5 mit Ubuntu 24.04 LTS. Hier 
+      hoste ich verschiedene Services und experimentiere mit neuen Technologien.
+    `,
+    features: [
+      "WireGuard VPN Server",
+      "Docker Container",
+      "Telegram Bot Hosting",
+      "Automatische Backups",
+    ],
+    technologies: ["Ubuntu", "Docker", "WireGuard", "Bash"],
+    blogPost: "homelab-raspberry-pi",
+    github: null,
+  },
+  "minecraft-server": {
+    title: "Minecraft Server Netzwerk",
+    icon: "🎮",
+    status: "Archiviert",
+    tags: ["Java", "Networking", "Server"],
+    description: "Multi-Server Setup mit Fabric, Velocity Proxy und Paper.",
+    longDescription: `
+      Ein komplettes Minecraft Server Netzwerk das ich zu Übungszwecken aufgebaut 
+      habe. Es bestand aus mehreren verbundenen Servern mit einem Velocity Proxy.
+    `,
+    features: [
+      "Velocity Proxy für Load Balancing",
+      "Paper und Fabric Server",
+      "Firewall-Konfiguration",
+      "Custom Plugins",
+    ],
+    technologies: ["Java", "Velocity", "Paper", "Fabric", "Linux"],
+    blogPost: null,
+    github: null,
+  },
+  "vpn-server": {
+    title: "VPN Server Setup",
+    icon: "🔐",
+    status: "Aktiv",
+    tags: ["VPN", "WireGuard", "Security"],
+    description: "WireGuard und OpenVPN Server für sicheren Remote-Zugriff.",
+    longDescription: `
+      Ich habe sowohl WireGuard als auch OpenVPN Server eingerichtet, um sicher 
+      auf mein Heimnetzwerk zugreifen zu können.
+    `,
+    features: [
+      "WireGuard für moderne Performance",
+      "OpenVPN als Fallback",
+      "Automatische Client-Konfiguration",
+      "Kill-Switch Unterstützung",
+    ],
+    technologies: ["WireGuard", "OpenVPN", "Linux", "Networking"],
+    blogPost: "wireguard-vpn-setup",
+    github: null,
+  },
+  "tryhackme-ctfs": {
+    title: "TryHackMe CTFs",
+    icon: "🏴‍☠️",
+    status: "Laufend",
+    tags: ["CTF", "Security", "Learning"],
+    description: "Teilnahme an Advent of Cyber und anderen CTF-Challenges.",
+    longDescription: `
+      Ich nehme regelmäßig an CTF-Challenges auf TryHackMe teil, besonders am 
+      jährlichen Advent of Cyber Event. Hier dokumentiere ich meine Learnings.
+    `,
+    features: [
+      "Advent of Cyber 2024 & 2025",
+      "Web Application Security",
+      "Network Forensics",
+      "Malware Analysis Basics",
+    ],
+    technologies: ["Burp Suite", "Nmap", "Wireshark", "Linux"],
+    blogPost: "advent-of-cyber-2024",
+    github: null,
+  },
+  "cloudflare-zerotrust": {
+    title: "Cloudflare Zero Trust",
+    icon: "☁️",
+    status: "Aktiv",
+    tags: ["Cloudflare", "Tunnel", "Security"],
+    description: "Zero Trust Tunnel für sicheren Zugriff ohne Port-Forwarding.",
+    longDescription: `
+      Mit Cloudflare Zero Trust Tunnel kann ich sicher auf meine internen 
+      Services zugreifen, ohne Ports in meinem Router öffnen zu müssen.
+    `,
+    features: [
+      "Kein Port-Forwarding nötig",
+      "DDoS-Schutz inklusive",
+      "Authentifizierung",
+      "Einfache Konfiguration",
+    ],
+    technologies: ["Cloudflare", "Tunnel", "DNS", "Security"],
+    blogPost: null,
+    github: null,
+  },
+  "minecraft-mods": {
+    title: "Minecraft Mods",
+    icon: "⚒️",
+    status: "Pausiert",
+    tags: ["Java", "Fabric", "Modding"],
+    description: "Entwicklung von Minecraft Mods mit Java und Fabric.",
+    longDescription: `
+      Ich habe einige Minecraft Mods mit Java und dem Fabric Mod Loader 
+      entwickelt. Das war eine gute Möglichkeit, Java-Programmierung zu vertiefen.
+    `,
+    features: [
+      "Fabric Mod Loader",
+      "Custom Items und Blöcke",
+      "API-Integration",
+      "Mixins für Core-Modifikationen",
+    ],
+    technologies: ["Java", "Fabric", "Gradle", "Git"],
+    blogPost: null,
+    github: null,
+  },
+};
+
+const project = projects[slug];
+
+const statusColors: Record<string, string> = {
+  Aktiv: "status-active",
+  "In Entwicklung": "status-dev",
+  Laufend: "status-active",
+  Pausiert: "status-paused",
+  Archiviert: "status-archived",
+};
+---
+
+<BaseLayout title={`${project.title} | Adryano Yohanna`}>
+  <Header currentPath="/projekte" />
+
+  <main>
+    <article class="project-detail">
+      <div class="container">
+        <a href={getPath("/projekte")} class="back-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Zurück zu Projekten
+        </a>
+
+        <header class="project-header glass-card">
+          <div class="header-top">
+            <span class="project-icon">{project.icon}</span>
+            <span class:list={["project-status", statusColors[project.status]]}>
+              {project.status}
+            </span>
+          </div>
+
+          <h1>{project.title}</h1>
+          <p class="project-description">{project.description}</p>
+
+          <div class="project-tags">
+            {project.tags.map((tag: string) => <span class="tag">{tag}</span>)}
+          </div>
+        </header>
+
+        <div class="project-content">
+          <section class="content-section">
+            <h2>📖 Über das Projekt</h2>
+            <p>{project.longDescription}</p>
+          </section>
+
+          <section class="content-section">
+            <h2>✨ Features</h2>
+            <ul class="features-list">
+              {project.features.map((feature: string) => <li>{feature}</li>)}
+            </ul>
+          </section>
+
+          <section class="content-section">
+            <h2>🛠️ Technologien</h2>
+            <div class="tech-grid">
+              {
+                project.technologies.map((tech: string) => (
+                  <span class="tech-badge">{tech}</span>
+                ))
+              }
+            </div>
+          </section>
+
+          {
+            project.blogPost && (
+              <section class="content-section blog-link-section">
+                <h2>📝 Blog-Artikel</h2>
+                <p>Mehr Details zu diesem Projekt findest du in meinem Blog:</p>
+                <a
+                  href={getPath(`/blog/${project.blogPost}`)}
+                  class="btn btn-primary"
+                >
+                  Zum Blog-Artikel
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </a>
+              </section>
+            )
+          }
+        </div>
+
+        <!-- Bottom Navigation -->
+        <footer class="project-footer">
+          <a href={getPath("/projekte")} class="btn btn-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Zurück zu Projekten
+          </a>
+        </footer>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  main {
+    padding-top: 72px;
+  }
+
+  .project-detail {
+    padding: 3rem 0 5rem;
+  }
+
+  .project-detail .container {
+    max-width: 900px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-primary);
+  }
+
+  .project-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-icon {
+    font-size: 3rem;
+  }
+
+  .project-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .status-active {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+  }
+
+  .status-dev {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+  }
+
+  .status-paused {
+    background: rgba(250, 204, 21, 0.15);
+    color: #eab308;
+  }
+
+  .status-archived {
+    background: rgba(161, 161, 170, 0.15);
+    color: #a1a1aa;
+  }
+
+  .project-header h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .project-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-tags {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Content Sections */
+  .project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .content-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .content-section h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  .content-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .features-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .features-list li::before {
+    content: "✓";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-gradient);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  .tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .tech-badge {
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+
+  .blog-link-section {
+    background: var(--glass-bg);
+    border-color: var(--accent-primary);
+  }
+
+  .blog-link-section p {
+    margin-bottom: 1rem;
+  }
+
+  .project-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding-top: 80px;
+    }
+
+    .project-detail {
+      padding: 2rem 0 3rem;
+    }
+
+    .back-link {
+      margin-bottom: 1.5rem;
+    }
+
+    .header-top {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .project-icon {
+      font-size: 2.5rem;
+    }
+
+    .project-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .project-description {
+      font-size: 1rem;
+    }
+
+    .content-section {
+      padding: 1.25rem;
+      border-radius: 14px;
+    }
+
+    .content-section h2 {
+      font-size: 1.1rem;
+    }
+
+    .features-list {
+      gap: 0.6rem;
+    }
+
+    .features-list li {
+      font-size: 0.95rem;
+    }
+
+    .features-list li::before {
+      width: 20px;
+      height: 20px;
+      font-size: 0.65rem;
+    }
+
+    .tech-badge {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .project-footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding-top: 70px;
+    }
+
+    .project-detail {
+      padding: 1.5rem 0 2.5rem;
+    }
+
+    .back-link {
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-icon {
+      font-size: 2rem;
+    }
+
+    .project-status {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.75rem;
+    }
+
+    .project-header {
+      padding: 1.25rem;
+    }
+
+    .project-header h1 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-description {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      gap: 0.4rem;
+    }
+
+    .project-content {
+      gap: 1.5rem;
+    }
+
+    .content-section {
+      padding: 1rem;
+      border-radius: 12px;
+    }
+
+    .content-section h2 {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .content-section p {
+      font-size: 0.9rem;
+    }
+
+    .features-list li {
+      font-size: 0.9rem;
+      gap: 0.5rem;
+    }
+
+    .tech-grid {
+      gap: 0.5rem;
+    }
+
+    .tech-badge {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+    }
+
+    .project-footer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+    }
+  }
+</style>
